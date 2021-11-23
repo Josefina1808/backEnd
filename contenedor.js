@@ -7,6 +7,18 @@ class Contenedor {
         this.content = []
     }
 
+    async init() {
+        try {
+			let data = await fs.promises.readFile(this.fileName);
+			this.content = JSON.parse(data);
+			for (const element of this.content) {
+				if (element.id > this.countID) this.countID = element.id;
+			}
+		} catch (error) {
+			console.log('Aún no hay archivo');
+		}
+    }
+
     async write() { //Método que escribe/sobreescribe: de este manera queda más limpio el código de los otros métodos
         await fs.promises.writeFile(this.fileName, JSON.stringify(this.content))
     }
@@ -19,14 +31,15 @@ class Contenedor {
         return `El id del objeto añadido es ${this.countID}` //Retorna el ID (lo solicita la consigna)
     }
 
-    async getAll() { //Devuelve un array con los objetos presentes en el archivo
+    getAll() { //Devuelve un array con los objetos presentes en el archivo
         return this.content
     }
 
     getById(id) { //Recibe un id y devuelve el objeto con ese id, o null si no está.
         let result
         if (this.content !== []) {
-            result = this.content.find(x => x.id === id)
+            let array = this.content
+            result = array.find(x => x.id === id)
             if (result === undefined) {
                 result = null
             }
