@@ -2,15 +2,20 @@ const express = require('express')
 
 const app = express()
 
-app.listen(process.env.PORT || 3000)
+app.listen(8080)
 
-const frase = "Mientras más grande mejor"
+const frase = "Mientras más grande mejor";
+app.get('/', (req, res) => {
+    res.send(`
+        <a href="/api/frase">Saludo<a>
+    `)
+})
 
-app.get('api/frase', (req, res) => {
+app.get('/api/frase', (req, res) => {
     res.json({frase})
 })
 
-app.get('api/letras/:num', (req, res) => { //Devuelve la letra en la posición indicada a través del param
+app.get('/api/letras/:num', (req, res) => { //Devuelve la letra en la posición indicada a través del param
     let num = parseInt(req.params.num);
 
     if(isNaN(num)) {
@@ -24,7 +29,7 @@ app.get('api/letras/:num', (req, res) => { //Devuelve la letra en la posición i
     res.json({letra: frase[num - 1]})
 })
 
-app.get('api/palabras/:num', (req, res) => { //Devuelve la palabra del número indicado. Ej: if 3 => grande
+app.get('/api/palabras/:num', (req, res) => { //Devuelve la palabra del número indicado. Ej: if 3 => grande
     let palabras = frase.split(' ')
     let num = parseInt(req.params.num);
     
