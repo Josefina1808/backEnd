@@ -49,15 +49,30 @@ app.post("/api/ciudad", (req, res) => {
   console.log("POST request");
   const mensaje = req.body;
 
-  //create on DB
-  res.send(mensaje);
+  let max = 0;
+  
+  for(const c of ciudades) {
+    if(c.id > max) max = c.id
+  }
+  max++;
+
+  let newCity = {
+    id: max,
+    nombre: mensaje.nombre,
+    pais: mensaje.pais,
+  };
+
+  ciudades.push(newCity)
+  
+  return res.send(newCity);
 });
 
 //ACTUALIZAR --> PUT
 app.put("/api/ciudades/:pais", (req, res) => {
   console.log("POST request");
-  const mensaje = req.body;
-
+  
+  const mensaje = req.body
+  
   //update DB
   res.send({
       result: 'OK',
