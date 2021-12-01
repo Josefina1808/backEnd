@@ -5,6 +5,8 @@ class Contenedor {
         this.fileName = name
         this.countID = 0
         this.content = []
+
+        this.init()
     }
 
     async init() {
@@ -28,7 +30,7 @@ class Contenedor {
         object["id"] = this.countID //Agrego la propiedad id al objeto pasado como parámetro
         this.content.push(object) //Agrego el objeto al contenido(array)
         this.write() //Agrego el objeto al archivo
-        return `El id del objeto añadido es ${this.countID}` //Retorna el ID (lo solicita la consigna)
+        return `El id del objeto añadido es ${this.countID}.` //Retorna el ID (lo solicita la consigna)
     }
 
     getAll() { //Devuelve un array con los objetos presentes en el archivo
@@ -63,8 +65,15 @@ class Contenedor {
     }
 
     async deleteAll() { //Elimina todos los objetos presentes en el archivo.
-        this.content = this.content.splice(0, this.content.length)
+        this.content = await this.content.splice(0, this.content.length)
         this.write()
+    }
+
+    update(id, obj){
+        const index = this.content.findIndex( objT => objT.id == id);
+        obj.id = this[index].id
+        this.content[index] = obj;
+        return obj;
     }
 }
 

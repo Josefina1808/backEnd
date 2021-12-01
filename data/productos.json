@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Pulsera",
+    "price": 150,
+    "thumbnail": "shorturl.at/bqDZ3",
+    "id": 1
+  },
+  {
+    "title": "Collar",
+    "price": 100,
+    "thumbnail": "shorturl.at/hlEYZ",
+    "id": 2
+  },
+  {
+    "title": "iPhone",
+    "price": 1200,
+    "thumbnail": "shorturl.at/dpqH6",
+    "id": 3
+  },
+  {
+    "title": "Vaso",
+    "price": "790",
+    "thumbnail": "https://cutt.ly/DYe4KCH",
+    "id": 4
+  }
+]
