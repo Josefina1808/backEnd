@@ -5,7 +5,6 @@ class Contenedor {
         this.fileName = name
         this.countID = 0
         this.content = []
-
         this.init()
     }
 
@@ -40,8 +39,7 @@ class Contenedor {
     getById(id) { //Recibe un id y devuelve el objeto con ese id, o null si no está.
         let result
         if (this.content !== []) {
-            let array = this.content
-            result = array.find(x => x.id === id)
+            result = this.content.find(x => x.id === id)
             if (result === undefined) {
                 result = null
             }
@@ -57,7 +55,7 @@ class Contenedor {
             let newContent = this.content.filter(x => x.id !== id)
             this.content = newContent
             this.write() //SobreEscribo el archivo
-            result = 'OK'
+            result = `El producto fue eliminado`
         } else {
             result = `El archivo está vacío`
         }

@@ -18,7 +18,7 @@ router.get("/", (req, res) => {
   });
   
   router.get("/:id", (req, res) => {
-    let id = req.params.id;
+    let id = Number(req.params.id);
     return res.json(productos.getById(id));
   });
   
@@ -27,14 +27,13 @@ router.get("/", (req, res) => {
     return res.json(productos.save(obj));
   });
   
-  
   router.put("/:id", (req, res) => {
     let obj = req.body;
-    let id = req.params.id;
+    let id = Number(req.params.id);
     return res.json(productos.update(id, obj));
   });
   
   router.delete("/:id", (req, res) => {
-    let id = req.params.id;
+    let id = Number(req.params.id);
     return res.json(productos.deleteById(id));
   });
