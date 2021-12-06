@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('head');%>
+  <body class="container bg-light">
+    <%- include('navbar');%>
+
+    <h2 class="text-danger mt-4">Productos cargados</h2>
+    <% if (content.length == 0) { %>
+    <h5 class="alert-danger rounded p-2">No se encontraron datos</h5>
+    <% } else { %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Título</th>
+          <th scope="col">Precio</th>
+          <th scope="col">URL imagen</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% content.forEach(producto => { %>
+            <tr>
+                <th scope="row"><%= producto.id %></th>
+                <td><%= producto.title %></td>
+                <td><%= producto.price %></td>
+                <td><%= producto.thumbnail %></td>
+              </tr>
+        <% }); %> 
+      </tbody>
+    </table>
+    <% } %>
+
+    <%- include('scripts');%>
+  </body>
+</html>
