@@ -1,0 +1,20 @@
+[
+  {
+    "user": "Josefina",
+    "id": 1,
+    "products": [
+      {
+        "title": "Vaso",
+        "price": "890",
+        "thumbnail": "https://cdn2.iconfinder.com/data/icons/spring-30/30/Ice_Tea-256.png",
+        "id": 1
+      },
+      {
+        "title": "Celular",
+        "price": "1200",
+        "thumbnail": "https://cdn3.iconfinder.com/data/icons/geest-women-kit/128/bag_icons-06-256.png",
+        "id": 2
+      }
+    ]
+  }
+]

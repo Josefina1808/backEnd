@@ -1,19 +1,15 @@
 const express = require("express");
 const Contenedor = require("./class/contenedor");
 const handlebars = require("express-handlebars");
-const { Server: HttpServer } = require("http");
-const { Server: IOServer } = require("socket.io");
+const { Router } = express;
 
 const app = express();
-const httpServer = new HttpServer(app);
-const io = new IOServer(httpServer);
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("./views/layouts"));
 
+const router = Router();
 const productos = new Contenedor(__dirname + "/data/productos.json");
-const messages = []
 
 app.engine(
   "hbs",
@@ -25,7 +21,10 @@ app.engine(
 app.set("views", "./views");
 app.set("views engine", "hbs");
 
-app.get("/", (req, res) => {
+/* ROUTER BASE 'api/productos' */
+app.use("/api/productos", router);
+
+router.get("/", (req, res) => {
   let content = productos.content;
   let boolean = content.length !== 0;
   return res.render("layouts/main.hbs", {
@@ -34,24 +33,49 @@ app.get("/", (req, res) => {
   });
 });
 
-app.post("/", (req, res) => {
+router.post("/", (req, res) => {
   productos.save(req.body);
   let content = productos.content;
   let boolean = content.length !== 0;
   return res.render("layouts/main.hbs", { list: content, showList: boolean });
 });
 
-httpServer.listen(process.env.PORT || 8080, () => {
-  console.log("SERVER ON");
+router.put("/:id", (req, res) => {
+  let obj = req.body;
+  let id = Number(req.params.id);
+  let content = productos.update(id, obj)
+  return res.render("layouts/main.hbs", { list: content, showList: boolean });
 });
 
-/* CHAT */
-io.on("connection", (socket) => {
-    socket.emit("messages", messages);
-  
-    socket.on("new-message", (data) => {
-      data.time = new Date().toLocaleString();
-      messages.push(data);
-      io.sockets.emit("messages", [data]);
-    });
-  });
+router.delete("/:id", (req, res) => {
+  let id = Number(req.params.id);
+  let content = productos.deleteById(id)
+  return res.render("layouts/main.hbs", { list: content, showList: boolean });
+});
+
+
+/* ROUTER BASE 'api/carrito' */
+const router2 = Router()
+app.use("/api/carrito", router2);
+router2.post("/", (req, res) => {
+//Crea un carrito y devuelve su id.
+})
+
+router2.delete("/:id", (req, res) => {
+// Vacía un carrito y lo elimina
+})
+
+router2.get("/:id/productos", (req, res) => {
+//listar productos del carrito
+})
+
+router2.post("/:id/productos", (req, res) => {
+//incorporar productos al carritocarrito
+})
+
+router2.delete("/:id/productos/:id_prod", (req, res) => {
+  //Eliminar un producto del carrito por su id de carrito y de producto
+})
+
+app.listen(8080);
+
