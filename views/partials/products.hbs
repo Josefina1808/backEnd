@@ -17,7 +17,11 @@
                   <td>{{this.title}}</td>
                   <td>${{this.price}}</td>
                   <td><img style="height: 3rem;" src="{{this.thumbnail}}" alt=""></td>
-                  <td><button class="btn btn-success" action="/api/carrito" method="post">+</button></td>
+                  <td> 
+                    <form action="/api/carrito" method="post">
+                      <button type="submit" class="btn btn-success" value="{{this}}">+</button>
+                    </form>
+                  </td>
                 </tr>
           {{/each}}
         </tbody>

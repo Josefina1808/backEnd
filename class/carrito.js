@@ -1,4 +1,6 @@
 const fs = require("fs");
+const Contenedor = require("./contenedor");
+const productos = new Contenedor(__dirname + "/data/productos.json");
 
 class Cart {
   constructor(name) {
@@ -10,7 +12,7 @@ class Cart {
 
   init() {
     try {
-      let data = await fs.promises.readFile(this.fileName);
+      let data = fs.promises.readFile(this.fileName);
       this.carts = JSON.parse(data);
       for (const element of this.carts) {
         if (element.id > this.countID) this.countID = element.id;
