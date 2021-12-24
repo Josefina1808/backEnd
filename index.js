@@ -1,5 +1,6 @@
 const express = require("express");
 const Contenedor = require("./class/contenedor");
+const Cart = require("./class/carrito");
 const handlebars = require("express-handlebars");
 const { Router } = express;
 
@@ -10,6 +11,7 @@ app.use(express.static("./views/layouts"));
 
 const router = Router();
 const productos = new Contenedor(__dirname + "/data/productos.json");
+const carritos = new Cart(__dirname + "/data/carritos.json")
 
 app.engine(
   "hbs",
@@ -70,7 +72,7 @@ router2.get("/:id/productos", (req, res) => {
 })
 
 router2.post("/:id/productos", (req, res) => {
-//incorporar productos al carritocarrito
+//incorporar productos al carrito
 })
 
 router2.delete("/:id/productos/:id_prod", (req, res) => {
