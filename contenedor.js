@@ -1,5 +1,5 @@
-const knex = require("knex")(options);
 const { options } = require('./options/db.js')
+const knex = require("knex")(options);
 
 class Contenedor {
   constructor(tableName) {

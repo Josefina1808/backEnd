@@ -1,19 +1,15 @@
 const express = require("express");
 const { Router } = express;
 
-const Contenedor = require("./class/contenedor");
+const Contenedor = require("./contenedor");
 
 const app = express();
 const productos = new Contenedor();
 const router = Router();
 
 app.listen(8080);
-app.use(express.json())
-app.use(express.urlencoded({extended: true})) 
-
 
 app.use("/api/productos", router);
-app.use(express.static("./views"));
 
 router.get("/", (req, res) => {
     return res.send(productos.getAll());
