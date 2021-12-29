@@ -1,4 +1,6 @@
 const server = require("express").Router();
+const Cart = require("./class/carrito");
+const carritos = new Cart(__dirname + "/data/carritos.json");
 
 server.post("/", (req, res) => {
   //Crea un carrito y devuelve su id

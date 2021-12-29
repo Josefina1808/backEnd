@@ -1,4 +1,6 @@
 const server = require("express").Router();
+const Contenedor = require("./class/contenedor");
+const productos = new Contenedor(__dirname + "/data/productos.json");
 
 server.get("/", (req, res) => {
   let content = productos.content;
