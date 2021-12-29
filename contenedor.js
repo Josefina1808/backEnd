@@ -1,71 +1,80 @@
-const fs = require('fs')
+const knex = require("knex")(options);
+const { options } = require('./options/db.js')
 
 class Contenedor {
-    constructor(name) {
-        this.fileName = name
-        this.countID = 0
-        this.content = []
-    }
+  constructor(tableName) {
+    knex.schema
+      .createTable(tableName, (table) => {
+        table.increments("id");
+        table.string("title");
+        table.integer("price");
+        table.string("thumbnail");
+      })
+      .then(() => console.log("Table created"))
+      .catch((err) => {
+        console.log(err);
+        throw err;
+      })
+      .finally(() => {
+        knex.destroy();
+      });
+    this.tableName = tableName;
+  }
 
-    async init() {
-        try {
-			let data = await fs.promises.readFile(this.fileName);
-			this.content = JSON.parse(data);
-			for (const element of this.content) {
-				if (element.id > this.countID) this.countID = element.id;
-			}
-		} catch (error) {
-			console.log('Aún no hay archivo');
-		}
-    }
+  save(object) {
+    knex(tableName)
+    .insert(object)
+    .then(() => console.log("Data inserted"))
+    .catch((err) => {console.log(err);throw err;})
+    .finally(() => {knex.destroy();});
+    return `Objeto añadido`;
+  }
 
-    async write() { 
-        await fs.promises.writeFile(this.fileName, JSON.stringify(this.content))
-    }
-
-    save(object) {
-        this.countID++ 
-        object["id"] = this.countID 
-        this.content.push(object) 
-        this.write() 
-        return `El id del objeto añadido es ${this.countID}`
-    }
-
-    getAll() { 
-        return this.content
-    }
-
-    getById(id) { 
-        let result
-        if (this.content !== []) {
-            let array = this.content
-            result = array.find(x => x.id === id)
-            if (result === undefined) {
-                result = null
-            }
-        } else {
-            result = 'El archivo está vacío'
+  getAll() {
+    knex.from(this.tableName).select()
+    .then((rows) => {
+        for (row of rows) {
+            console.log(`${row['title']} ${row['price']}`);
         }
-        return result
-    }
+    }).catch(err => {console.log(err); throw err})
+    .finally( () => {
+        knex.destroy();
+    });
+  }
 
-    deleteById(id) { 
-        let result
-        if (this.content !== []) {
-            let newContent = this.content.filter(x => x.id !== id)
-            this.content = newContent
-            this.write() 
-            result = 'OK'
-        } else {
-            result = `El archivo está vacío`
+  getById(id) {
+    knex.from(this.tableName).select().where('id', '=', id)
+    .then((rows) => {
+        for (row of rows) {
+            console.log(`${row['title']} ${row['price']}`);
         }
-        return result
-    }
+    }).catch(err => {console.log(err); throw err})
+    .finally( () => {
+        knex.destroy();
+    });
+  }
 
-    async deleteAll() {
-        this.content = this.content.splice(0, this.content.length)
-        this.write()
-    }
+  deleteById(id) {
+    knex.from(this.tableName).where("id", "=", id).del()
+    .then(() => {
+        console.log("object deleted")
+    })
+    .catch(err => {console.log(err); throw err; })
+    .finally(() => {
+        knex.destroy();
+    })
+  }
+
+  async deleteAll() {
+    knex.from(this.tableName).del()
+    .then(() => {
+        console.log("all data deleted")
+    })
+    .catch(err => {console.log(err); throw err; })
+    .finally(() => {
+        knex.destroy();
+    })
+  }
 }
 
-module.exports = Contenedor
+module.exports = Contenedor;
