@@ -1,9 +1,11 @@
 const express = require("express");
 const { Router } = express;
-
 const Contenedor = require("./contenedor");
 
 const app = express();
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
+app.use(express.static("./views"));
 const productos = new Contenedor();
 const router = Router();
 

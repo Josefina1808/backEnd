@@ -2,9 +2,13 @@ const { options } = require('./options/db.js')
 const knex = require("knex")(options);
 
 class Contenedor {
-  constructor(tableName) {
+  constructor() {
+    this.tableName = 'products';
+    this.init()
+  }
+  init() {
     knex.schema
-      .createTable(tableName, (table) => {
+      .createTable(this.tableName, (table) => {
         table.increments("id");
         table.string("title");
         table.integer("price");
@@ -18,11 +22,10 @@ class Contenedor {
       .finally(() => {
         knex.destroy();
       });
-    this.tableName = tableName;
   }
 
   save(object) {
-    knex(tableName)
+    knex(this.tableName)
     .insert(object)
     .then(() => console.log("Data inserted"))
     .catch((err) => {console.log(err);throw err;})
