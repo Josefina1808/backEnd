@@ -1,11 +1,17 @@
 const express = require("express");
 const { Router } = express;
 const Contenedor = require("./contenedor");
+const { Server: HttpServer } = require("http");
+const { Server: IOServer } = require("socket.io");
 
 const app = express();
+const httpServer = new HttpServer(app);
+const io = new IOServer(httpServer);
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(express.static("./views"));
+
 const productos = new Contenedor();
 const router = Router();
 
@@ -31,3 +37,14 @@ router.get("/", (req, res) => {
     let id = Number(req.params.id);
     return res.send(productos.deleteById(id));
   });
+
+  /* CHAT */
+io.on("connection", (socket) => {
+  socket.emit("messages", messages);
+
+  socket.on("new-message", (data) => {
+    data.time = new Date().toLocaleString();
+    messages.push(data);
+    io.sockets.emit("messages", [data]);
+  });
+});
