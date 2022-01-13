@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "express": "^4.17.1",
-    "moment": "^2.29.1"
+    "moment": "^2.29.1",
+    "mongoose": "^6.1.6"
   },
   "name": "backend",
   "version": "1.0.0",
