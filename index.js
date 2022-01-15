@@ -2,7 +2,7 @@ const express = require("express")
 const mongoose = require('mongoose')
 const { Schema } = mongoose;
 
-const routerBook = require("./routes/book.router")
+const router = require("./routes/router")
 
 const URL = "mongodb://tom:jerry@127.0.0.1/clase19"
 const PORT = process.env.PORT || 3000
