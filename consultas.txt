@@ -1,0 +1,20 @@
+//Listar los productos con precio menor a 1000 pesos.
+db.productos.find({"price": {$lt: 1000}})
+
+//Listar los productos con precio entre los 1000 a 3000 pesos
+db.productos.find({$and: [{price: {$gt: 1000}}, {price: {$lt: 3000}}]}
+
+//Listar los productos con precio mayor a 3000 pesos
+db.productos.find({"price": {$gt: 3000}})
+
+//El nombre del tercer producto más barato --> no sé como taer solo el tercero
+db.productos.find({},{title: 1}).sort({"price": 1}).skip(2)
+
+//Hacer una actualización sobre todos los productos, agregando el campo stock a todos ellos con un valor de 100.
+ db.productos.updateMany({}, {$set: {stock: 100}}, false, true)
+
+//Cambiar el stock a cero de los productos con precios mayores a 4000 pesos
+db.productos.updateMany({price: {$gt: 4000}}, {$set: {stock: 0}})
+
+//Borrar los productos con precio menor a 1000 pesos
+db.productos.deleteMany({price: {$lt: 1000}})
