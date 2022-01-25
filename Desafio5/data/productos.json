@@ -1,0 +1,86 @@
+[
+  {
+    "title": "Pulsera",
+    "price": 150,
+    "thumbnail": "shorturl.at/bqDZ3",
+    "id": 1
+  },
+  {
+    "title": "Collar",
+    "price": 100,
+    "thumbnail": "shorturl.at/hlEYZ",
+    "id": 2
+  },
+  {
+    "title": "iPhone",
+    "price": 1200,
+    "thumbnail": "shorturl.at/dpqH6",
+    "id": 3
+  },
+  {
+    "title": "Vaso",
+    "price": "790",
+    "thumbnail": "https://cutt.ly/DYe4KCH",
+    "id": 4
+  },
+  {
+    "title": "Vaso",
+    "price": "890",
+    "thumbnail": "https://cdn2.iconfinder.com/data/icons/spring-30/30/Ice_Tea-256.png",
+    "id": 5
+  },
+  {
+    "title": "Celular",
+    "price": "1200",
+    "thumbnail": "https://cdn3.iconfinder.com/data/icons/geest-women-kit/128/bag_icons-06-256.png",
+    "id": 6
+  },
+  {
+    "title": "Lentes",
+    "price": "3298",
+    "thumbnail": "https://cdn3.iconfinder.com/data/icons/geek-3/24/Deal_With_It_Glasses_pixel_geek_mame-128.png",
+    "id": 7
+  },
+  {
+    "title": "Lentes",
+    "price": "4382",
+    "thumbnail": "https://cdn3.iconfinder.com/data/icons/geek-3/24/Deal_With_It_Glasses_pixel_geek_mame-128.png",
+    "id": 8
+  },
+  {
+    "title": "Lentes ",
+    "price": "2342",
+    "thumbnail": "https://cdn3.iconfinder.com/data/icons/geek-3/24/Deal_With_It_Glasses_pixel_geek_mame-128.png",
+    "id": 9
+  },
+  {
+    "title": "Lentes",
+    "price": "2342",
+    "thumbnail": "https://cdn3.iconfinder.com/data/icons/geek-3/24/Deal_With_It_Glasses_pixel_geek_mame-128.png",
+    "id": 10
+  },
+  {
+    "title": "Billetera",
+    "price": "9078",
+    "thumbnail": "https://cdn2.iconfinder.com/data/icons/round-varieties/60/Rounded_-_High_Ultra_Colour11_-_Wallet-256.png",
+    "id": 11
+  },
+  {
+    "title": "Vaso",
+    "price": "1234",
+    "thumbnail": "https://cutt.ly/DYe4KCH",
+    "id": 12
+  },
+  {
+    "title": "Vaso",
+    "price": "1234",
+    "thumbnail": "https://cutt.ly/DYe4KCH",
+    "id": 13
+  },
+  {
+    "title": "Celular",
+    "price": "1234",
+    "thumbnail": "https://cdn3.iconfinder.com/data/icons/geest-women-kit/128/bag_icons-06-256.png",
+    "id": 14
+  }
+]
