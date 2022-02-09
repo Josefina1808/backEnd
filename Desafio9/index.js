@@ -1,11 +1,20 @@
 const express = require("express");
-const Contenedor = require("./class/contenedor");
+const { Router } = express;
 const handlebars = require("express-handlebars");
+const fs = require("fs");
+
+const Contenedor = require("./class/contenedor");
+const ApiProductos = require("./api/apiProductos.js");
+const ApiChat = require("./api/apiChat");
+/* const productsRouter = require('./routers/productsRouter') */
+
 const { Server: HttpServer } = require("http");
 const { Server: IOServer } = require("socket.io");
-const ApiProductos = require('./api/apiProductos5.js') 
 
 const app = express();
+const apiProductos = new ApiProductos();
+const apiChat = new ApiChat();
+
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
 
@@ -14,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("./views/layouts"));
 
 const productos = new Contenedor(__dirname + "/data/productos.json");
-const messages = []
+const messages = [];
 
 app.engine(
   "hbs",
@@ -25,6 +34,10 @@ app.engine(
 );
 app.set("views", "./views");
 app.set("views engine", "hbs");
+
+//ROUTER
+//const router = Router();
+//router.use("api/productos", productsRouter)
 
 app.get("/", (req, res) => {
   let content = productos.content;
@@ -42,10 +55,14 @@ app.post("/", (req, res) => {
   return res.render("layouts/main.hbs", { list: content, showList: boolean });
 });
 
-app.get('/api/productos-test', (req, res) => {
-  const result = ApiProductos.productos()
-  return res.send(JSON.stringify(result))
-})
+app.get("/api/productos-test", (req, res) => {
+  const result = apiProductos.productos();
+  return res.render("layouts/main.hbs", {
+    list: result,
+    showList: true,
+  });
+  /* return res.send(JSON.stringify(result)) */
+});
 
 httpServer.listen(process.env.PORT || 8080, () => {
   console.log("SERVER ON");
@@ -53,11 +70,20 @@ httpServer.listen(process.env.PORT || 8080, () => {
 
 /* CHAT */
 io.on("connection", (socket) => {
-    socket.emit("messages", messages);
-  
-    socket.on("new-message", (data) => {
-      data.time = new Date().toLocaleString();
-      messages.push(data);
-      io.sockets.emit("messages", [data]);
-    });
+  apiChat.readChatFromFile();
+  socket.emit("messages", messages.content);
+
+  socket.on("new-message", (data) => {
+    data.time = new Date().toLocaleString();
+    messages.push(data);
+    io.sockets.emit("messages", [data]);
+
+    apiChat.writeChatToFile()
   });
+});
+
+//Manejador de errores
+app.use(function (err, req, res, next) {
+  console.log(err.stack);
+  res.status(500).send("Ocurrio un error: " + err);
+});
