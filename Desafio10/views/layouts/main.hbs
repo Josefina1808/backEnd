@@ -10,16 +10,9 @@
     />
     <title>Desafio 10</title>
   </head>
-  {{> welcome_banner}}
   <body class="container">
-    <br>
-    <div class="container bg-light p-3 rounded">
-      {{> form}}
-      {{> products}}
-    </div>
-    <br>
-    <div class="container bg-light p-3 rounded">{{> chat}}</div>
-
+    {{> header}}
+    {{{body}}}
     {{!-- SCRIPTS --}}
      <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="/socket.io/socket.io.js"></script>

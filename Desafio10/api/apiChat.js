@@ -20,7 +20,7 @@ class ApiChat extends Contenedor {
     async readChatFromFile(){
         try{
             //Leemos la fuente que esta normalizada
-            const message = await fs.promises.readFile('./data/mensajes.json')
+            const message = await fs.promises.readFile('./data/chat.json')
             const messageList = JSON.parse(message)
     
             this.content.splice(0, this.content.length)

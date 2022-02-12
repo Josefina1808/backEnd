@@ -1,9 +1,3 @@
-/* let username = sessionStorage.getItem("username");
-if (!username) {
-  username = prompt("Ingrese email");
-}
-$("#username").html(username); */
-
 const socket = io.connect();
 
 function render(data) {
@@ -35,7 +29,5 @@ $('#myChat').on('submit', e => {
     },
     text: $("#text").val()
   };
-  
-  console.log(message);
   socket.emit("new-message", message);
 });
