@@ -1,3 +1,9 @@
+/* let username = sessionStorage.getItem("username");
+if (!username) {
+  username = prompt("Ingrese email");
+}
+$("#username").html(username); */
+
 const socket = io.connect();
 
 function render(data) {
@@ -19,17 +25,17 @@ $('#myChat').on('submit', e => {
   e.preventDefault();
 
   const message = {
-    //Nuevo formato message solicitado en Desafio 9
     author: {
       id: $("#id").val(),
       name: $("#name").val(),
       lastname: $("#lastname").val(),
-      age: $("#age").val(),
+      age: Number($("#age").val()),
       alias: $("#alias").val(),
       avatar: $("#avatar").val(),
     },
     text: $("#text").val()
   };
-
+  
+  console.log(message);
   socket.emit("new-message", message);
 });
