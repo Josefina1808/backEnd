@@ -3,15 +3,14 @@ const session = require("express-session");
 const { Router } = express;
 const expbs = require("express-handlebars");
 const path = require('path')
-/* ------------------------------------- */
+
 /*      PERSISTENCIA POR MONGO ATLAS     */
-/* ------------------------------------- */
-/* const MongoStore = require("connect-mongo");
-const adavancedOptions = { useNewUrlParser: true, useUnifiedTopology: true }; */
+const MongoStore = require("connect-mongo");
+const adavancedOptions = { useNewUrlParser: true, useUnifiedTopology: true };
 /* ------------------------------------- */
 
 /* --- PERSISTENCIA POR FILE STORE --- */
-const FileStore = require("session-file-store")(session);
+/* const FileStore = require("session-file-store")(session); */
 /* ----------------------------------- */
 
 const Contenedor = require("./class/contenedor");
@@ -25,8 +24,7 @@ const app = express();
 app.use(
   session({
     /* store: MongoStore.create({
-      mongoUrl:
-        "mongodb+srv://admin:<password>@cluster0.2t9dj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+      mongoUrl: process.env.MONGOATLAS,
       mongoOptions: adavancedOptions,
     }), */
     store: new FileStore({ path: "./sessions" }),
@@ -64,7 +62,7 @@ app.set("views engine", "hbs");
 
 /* ROUTES */
 
-app.get("/", (req, res) => {
+app.get("/api/productos", (req, res) => {
   if (req.session.user) {
     let content = productos.content;
     let boolean = content.length !== 0;
@@ -73,10 +71,10 @@ app.get("/", (req, res) => {
       showList: boolean,
       name: req.session.user,
     });
-  } else return res.redirect("/login");
+  } else return res.redirect("api/login");
 });
 
-app.post("/", (req, res) => {
+app.post("/api/productos", (req, res) => {
   if (req.session.user) {
     productos.save(req.body);
     let content = productos.content;
@@ -86,10 +84,10 @@ app.post("/", (req, res) => {
       showList: boolean,
       name: req.session.user,
     });
-  } else return res.redirect("/login");
+  } else return res.redirect("api/login");
 });
 
-app.get("/chat", (req, res) => {
+app.get("/api/chat", (req, res) => {
   if (req.session.user) {
     let content = productos.content;
     let boolean = content.length !== 0;
@@ -98,7 +96,7 @@ app.get("/chat", (req, res) => {
       showList: boolean,
       name: req.session.user,
     });
-  } else return res.redirect("/login");
+  } else return res.redirect("apilogin");
 });
 
 app.get("/api/productos-test", (req, res) => {
@@ -112,16 +110,16 @@ app.get("/api/productos-test", (req, res) => {
 });
 
 /* SESSIONS */
-app.get("/login", (req, res) => {
+app.get("api/login", (req, res) => {
   return res.render("login.hbs");
 });
-app.post("/login", (req, res) => {
+app.post("api/login", (req, res) => {
   let username = req.body.name;
   req.session.user = username;
-  return res.redirect("/");
+  return res.redirect("/api/productos");
 });
 
-app.get("/logout", (req, res) => {
+app.get("api/logout", (req, res) => {
   req.session.destroy((err) => {
     if (!err) {
       res.render("bye_banner.hbs");

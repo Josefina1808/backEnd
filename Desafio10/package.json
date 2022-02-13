@@ -13,9 +13,9 @@
   },
   "name": "backend",
   "version": "1.0.0",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -28,5 +28,5 @@
     "url": "https://github.com/Josefina1808/backEnd/issues"
   },
   "homepage": "https://github.com/Josefina1808/backEnd#readme",
-  "description": ""
+  "description": "Desafio 10 - LOG-IN POR FORMULARIO"
 }
