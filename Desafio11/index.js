@@ -1,0 +1,154 @@
+const express = require("express");
+const session = require("express-session");
+const { Router } = express;
+const expbs = require("express-handlebars");
+const path = require('path')
+
+/*      PERSISTENCIA POR MONGO ATLAS     */
+/* const MongoStore = require("connect-mongo");
+const adavancedOptions = { useNewUrlParser: true, useUnifiedTopology: true }; */
+/* ------------------------------------- */
+
+/* --- PERSISTENCIA POR FILE STORE --- */
+const FileStore = require("session-file-store")(session);
+/* ----------------------------------- */
+
+const Contenedor = require("./class/contenedor");
+const ApiProductos = require("./api/apiProductos.js");
+/* const productsRouter = require('./routers/productsRouter') */
+
+const { Server: HttpServer } = require("http");
+const { Server: IOServer } = require("socket.io");
+
+const app = express();
+app.use(
+  session({
+    /* store: MongoStore.create({
+      mongoUrl:
+        "mongodb+srv://admin:<password>@cluster0.2t9dj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+      mongoOptions: adavancedOptions,
+    }), */
+    store: new FileStore({ path: "./sessions" }),
+    secret: "secreto",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+const apiProductos = new ApiProductos();
+
+const httpServer = new HttpServer(app);
+const io = new IOServer(httpServer);
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("./views/layouts"));
+
+const productos = new Contenedor(__dirname + "/data/productos.json");
+const messages = new Contenedor(__dirname + "/data/chat.json");
+
+app.engine(
+  "hbs",
+  expbs.engine({
+    defaultLayout: 'main',
+    partialsDir: path.join(__dirname, "views/partials"),
+    extname: ".hbs",
+  })
+);
+app.set("views", "./views");
+app.set("views engine", "hbs");
+
+
+/* ROUTES */
+app.get("/productos", (req, res) => {
+  if (req.session.user) {
+    let content = productos.content;
+    let boolean = content.length !== 0;
+    return res.render("index.hbs", {
+      list: content,
+      showList: boolean,
+      name: req.session.user,
+    });
+  } else return res.redirect("/login");
+});
+
+app.post("/productos", (req, res) => {
+  if (req.session.user) {
+    productos.save(req.body);
+    let content = productos.content;
+    let boolean = content.length !== 0;
+    return res.render("index.hbs", {
+      list: content,
+      showList: boolean,
+      name: req.session.user,
+    });
+  } else return res.redirect("/login");
+});
+
+app.get("/chat", (req, res) => {
+  if (req.session.user) {
+    return res.render("chat.hbs");
+  } else return res.redirect("/login");
+});
+
+app.get("/productos-test", (req, res) => {
+  const result = apiProductos.productos();
+  return res.render("index.hbs", {
+    list: result,
+    showList: true,
+    name: req.session.user,
+  });
+});
+
+/* SESSIONS */
+app.get("/login", (req, res) => {
+  return res.render("login.hbs");
+});
+app.post("/login", (req, res) => {
+  let username = req.body.name;
+  req.session.user = username;
+  return res.redirect("/productos");
+});
+
+app.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (!err) {
+      res.render("bye_banner.hbs");
+    } else res.send({ status: "Logout ERROR", body: err });
+  });
+});
+
+/* DESAFIO 11 */
+app.get('/info', (req, res) => {
+  const args = process.argv
+  const ruta = process.cwd()
+  const plataforma = process.platform
+  const id = process.pid
+  const version = process.version
+  const rss = process.memoryUsage()
+  res.send(`Argumentos de entrada: ${args}\n Path de ejecución: ${ruta}\n Sistema operativo: ${plataforma}\n ID: ${id}\n Node version: ${version}\n Carpeta del proyecto: ${ruta}\n Memoria total reservada: ${rss}\n`)
+})
+
+app.get('/random', (req, res) => {
+  res.send('Falta desarrollar')
+})
+
+/* CHAT */
+io.on("connection", (socket) => {
+  socket.emit("messages", messages.content);
+
+  socket.on("new-message", (data) => {
+    data.time = new Date().toLocaleString();
+    messages.save(data);
+    io.sockets.emit("messages", [data]);
+  });
+});
+
+//Manejador de errores
+app.use(function (err, req, res, next) {
+  console.log(err.stack);
+  res.status(500).send("Ocurrio un error: " + err);
+});
+
+httpServer.listen(process.env.PORT || 8080, () => {
+  console.log("SERVER ON");
+});
