@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("./views/layouts"));
 
 const productos = new Contenedor(__dirname + "/data/productos.json");
-const messages = [];
+let messages =  [];
 
 app.engine(
   "hbs",
@@ -70,15 +70,16 @@ httpServer.listen(process.env.PORT || 8080, () => {
 
 /* CHAT */
 io.on("connection", (socket) => {
-  apiChat.readChatFromFile();
-  socket.emit("messages", messages.content);
+  
+  messages = apiChat.readChatFromFile()
+  socket.emit("messages", messages);
 
   socket.on("new-message", (data) => {
     data.time = new Date().toLocaleString();
     messages.push(data);
     io.sockets.emit("messages", [data]);
 
-    apiChat.writeChatToFile()
+    apiChat.writeChatToFile(messages)
   });
 });
 
