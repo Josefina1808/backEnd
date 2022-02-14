@@ -9,13 +9,10 @@ const MongoStore = require("connect-mongo");
 const adavancedOptions = { useNewUrlParser: true, useUnifiedTopology: true };
 /* ------------------------------------- */
 
-/* --- PERSISTENCIA POR FILE STORE --- */
-/* const FileStore = require("session-file-store")(session); */
-/* ----------------------------------- */
 
 const Contenedor = require("./class/contenedor");
 const ApiProductos = require("./api/apiProductos.js");
-/* const productsRouter = require('./routers/productsRouter') */
+
 
 const { Server: HttpServer } = require("http");
 const { Server: IOServer } = require("socket.io");
@@ -23,11 +20,10 @@ const { Server: IOServer } = require("socket.io");
 const app = express();
 app.use(
   session({
-    /* store: MongoStore.create({
-      mongoUrl: process.env.MONGOATLAS,
+    store: MongoStore.create({
+      mongoUrl: "mongodb+srv://admin:admin@cluster0.2t9dj.mongodb.net/Cluster0?retryWrites=true&w=majority",
       mongoOptions: adavancedOptions,
-    }), */
-    store: new FileStore({ path: "./sessions" }),
+    }),
     secret: "secreto",
     resave: false,
     saveUninitialized: false,
@@ -56,10 +52,6 @@ app.engine(
 app.set("views", "./views");
 app.set("views engine", "hbs");
 
-//ROUTER
-//const router = Router();
-//router.use("api/productos", productsRouter)
-
 /* ROUTES */
 
 app.get("/api/productos", (req, res) => {
@@ -71,7 +63,7 @@ app.get("/api/productos", (req, res) => {
       showList: boolean,
       name: req.session.user,
     });
-  } else return res.redirect("api/login");
+  } else return res.redirect("login");
 });
 
 app.post("/api/productos", (req, res) => {
@@ -84,7 +76,7 @@ app.post("/api/productos", (req, res) => {
       showList: boolean,
       name: req.session.user,
     });
-  } else return res.redirect("api/login");
+  } else return res.redirect("login");
 });
 
 app.get("/api/chat", (req, res) => {
@@ -96,7 +88,7 @@ app.get("/api/chat", (req, res) => {
       showList: boolean,
       name: req.session.user,
     });
-  } else return res.redirect("apilogin");
+  } else return res.redirect("login");
 });
 
 app.get("/api/productos-test", (req, res) => {
@@ -106,20 +98,19 @@ app.get("/api/productos-test", (req, res) => {
     showList: true,
     name: req.session.user,
   });
-  /* return res.send(JSON.stringify(result)) */
 });
 
 /* SESSIONS */
-app.get("api/login", (req, res) => {
+app.get("/api/login", (req, res) => {
   return res.render("login.hbs");
 });
-app.post("api/login", (req, res) => {
+app.post("/api/login", (req, res) => {
   let username = req.body.name;
   req.session.user = username;
   return res.redirect("/api/productos");
 });
 
-app.get("api/logout", (req, res) => {
+app.get("/api/logout", (req, res) => {
   req.session.destroy((err) => {
     if (!err) {
       res.render("bye_banner.hbs");
