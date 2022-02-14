@@ -1,6 +1,7 @@
 const express = require("express");
 const session = require("express-session");
 const expbs = require("express-handlebars");
+require('dotenv').config({ path: './config/.env'})
 const { Server: HttpServer } = require("http");
 const { Server: IOServer } = require("socket.io");
 const path = require('path')
@@ -10,14 +11,18 @@ const app = express();
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
 
-/* --- PERSISTENCIA POR FILE STORE --- */
-const FileStore = require("session-file-store")(session);
-/* ----------------------------------- */
+/*      PERSISTENCIA POR MONGO ATLAS     */
+const MongoStore = require("connect-mongo");
+const adavancedOptions = { useNewUrlParser: true, useUnifiedTopology: true };
+/* ------------------------------------- */
 
 //Session config
 app.use(
   session({
-    store: new FileStore({ path: "./sessions" }),
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGOATLAS,
+      mongoOptions: adavancedOptions,
+    }),
     secret: "secreto",
     resave: false,
     saveUninitialized: false,
@@ -67,7 +72,3 @@ app.use(function (err, req, res, next) {
 httpServer.listen(process.env.PORT || 8080, () => {
   console.log("SERVER ON");
 });
-
-
-//Desafio 11
-
