@@ -1,7 +1,7 @@
 const socket = io.connect();
 
 function render(data) {
-  data.forEach((info) => {
+  data.map((info) => {
     $("#messages").prepend(`
       <div>
           <em class="text-primary fw-bold">${info.author.alias}</em>
@@ -15,21 +15,19 @@ socket.on("messages", (data) => {
   render(data);
 });
 
-$('#myChat').on('submit', e => {
+$("#myChat").on("submit", (e) => {
   e.preventDefault();
 
   const message = {
-    //Nuevo formato message solicitado en Desafio 9
     author: {
       id: $("#id").val(),
       name: $("#name").val(),
       lastname: $("#lastname").val(),
-      age: $("#age").val(),
+      age: Number($("#age").val()),
       alias: $("#alias").val(),
       avatar: $("#avatar").val(),
     },
-    text: $("#text").val()
+    text: $("#text").val(),
   };
-
   socket.emit("new-message", message);
 });
