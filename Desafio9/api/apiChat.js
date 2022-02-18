@@ -21,7 +21,7 @@ class ApiChat {
       //Leemos la fuente que esta normalizada
       const message = await fs.promises.readFile("./data/chat.json");
       const messageList = JSON.parse(message);
-      
+
       //Denormalizamos la fuente
       const messagesDenormalized = normalizeAndDenormalize("denormalize", messageList);
       

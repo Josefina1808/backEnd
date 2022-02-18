@@ -18,6 +18,8 @@ socket.on("messages", (data) => {
 $("#myChat").on("submit", (e) => {
   e.preventDefault();
 
+  let time = new Date().toLocaleString();
+
   const message = {
     author: {
       id: $("#id").val(),
@@ -28,6 +30,10 @@ $("#myChat").on("submit", (e) => {
       avatar: $("#avatar").val(),
     },
     text: $("#text").val(),
+    time: time
   };
+  
   socket.emit("new-message", message);
+  $("#text").val("")
+  return false
 });

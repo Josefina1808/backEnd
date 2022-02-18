@@ -1,7 +1,7 @@
 const { normalize, denormalize, schema } = require('normalizr')
 
 const normalizeAndDenormalize = (what, obj) => {
-    const authorSchema = new schema.Entity("author", {}, {idAttribute: 'email'})
+    const authorSchema = new schema.Entity("author")
     const chatSchema = new schema.Entity("messages", {
         author: authorSchema,
     })

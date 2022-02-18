@@ -54,20 +54,23 @@ let messages = [];
 
 io.on("connection", async (socket) => {
   let messagesToEmit = await apiChat.readChatFromFile();
-  messages.push(messagesToEmit)
+
+  messages.splice(0, messages.length);
+  for (const m of messagesToEmit) {
+    messages.push(m);
+  }
 
   socket.emit("messages", messagesToEmit);
 
   socket.on("new-message", (data) => {
-    data.time = new Date().toLocaleString();
-    
+    data.id = messages.length+1
+    messages.push(data);
+
     io.sockets.emit("messages", [data]);
 
-    messages.push(data);
     apiChat.writeChatToFile(messages);
   });
 });
-
 
 //Manejador de errores
 app.use(function (err, req, res, next) {
