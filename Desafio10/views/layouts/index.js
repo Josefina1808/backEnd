@@ -1,7 +1,7 @@
 const socket = io.connect();
 
 function render(data) {
-  data.forEach((info) => {
+  data.map((info) => {
     $("#messages").prepend(`
       <div>
           <em class="text-primary fw-bold">${info.author.alias}</em>
@@ -15,8 +15,10 @@ socket.on("messages", (data) => {
   render(data);
 });
 
-$('#myChat').on('submit', e => {
+$("#myChat").on("submit", (e) => {
   e.preventDefault();
+
+  let time = new Date().toLocaleString();
 
   const message = {
     author: {
@@ -27,7 +29,11 @@ $('#myChat').on('submit', e => {
       alias: $("#alias").val(),
       avatar: $("#avatar").val(),
     },
-    text: $("#text").val()
+    text: $("#text").val(),
+    time: time
   };
+  
   socket.emit("new-message", message);
+  $("#text").val("")
+  return false
 });
