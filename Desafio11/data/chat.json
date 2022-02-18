@@ -76,5 +76,18 @@
     "text": "Ahora si...?",
     "time": "12/2/2022 16:59:19",
     "id": 6
+  },
+  {
+    "author": {
+      "id": "josefinaesna@gmail.com",
+      "name": "Josefina Maria",
+      "lastname": "Esnaola Borbore",
+      "age": 21,
+      "alias": "jose.esnaola",
+      "avatar": "estosesunURL.com"
+    },
+    "text": "Hola",
+    "time": "17/2/2022 15:34:51",
+    "id": 7
   }
 ]

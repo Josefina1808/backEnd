@@ -2,15 +2,16 @@ const fs = require('fs')
 const Contenedor = require('../class/contenedor.js')
 const { normalizeAndDenormalize } =  require('../utils/normalizr')
 
+const messages = new Contenedor(path.join(__dirname, "../data/chat.json"));
 class ApiChat extends Contenedor {
     constructor() { super() }
 
     async writeChatToFile(){
         try{
-            // Normalizamos para guardar la data de esa forma y ahorrar 
-            const messagesNormalized = normalizeAndDenormalize("normalize", messages)
-    
-            await save(messagesNormalized)
+            // Normalizamos para guardar la data 
+            const messagesNormalized = normalizeAndDenormalize("normalize", messages.content)
+            //Guardamos en archivo
+            await save('NORMALIZED: '+messagesNormalized)
     
         } catch (err) {
             console.log('no se pudo escribir el archivo ' + err)
@@ -19,21 +20,13 @@ class ApiChat extends Contenedor {
     
     async readChatFromFile(){
         try{
-            //Leemos la fuente que esta normalizada
-            const message = await fs.promises.readFile('./data/chat.json')
-            const messageList = JSON.parse(message)
-    
-            this.content.splice(0, this.content.length)
     
             //Denormalizamos la fuente
-            const messagesDenormalized = normalizeAndDenormalize("denormalize", messageList)
-            console.log(messagesDenormalized);
-            //La pasamos a la variables message
-            for (const m of messagesDenormalized) {
-                
-                this.content.push(m)
-            }
-    
+            const messagesDenormalized = normalizeAndDenormalize("denormalize", messages.getAll())
+            console.log('DENORMALIZED: '+messagesDenormalized);
+
+            return messagesDenormalized
+
         } catch (err) {
             console.log('no se pudo leer el archivo ' + err)
         }
