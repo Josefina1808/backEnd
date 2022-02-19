@@ -3,32 +3,39 @@ const { fork } = require("child_process");
 const server = require("express").Router();
 
 server.get("/info", (req, res) => {
-  const args = process.argv;
-  const ruta = process.cwd();
-  const plataforma = process.platform;
-  const id = process.pid;
-  const version = process.version;
-  const rss = process.memoryUsage();
-  const fileName = process.writeReport(fileName);
+  const args =
+    process.argv.length > 2 ? process.argv.slice(2).join(", ") : "ninguno";
+
   res.send(`
     <ul>
+    <li>Sistema operativo: ${process.platform}</li>
+    <li>Node version: ${process.version}</li>
+    <li>Path de ejecución: ${process.execPath}</li>
+    <li>Carpeta del proyecto: ${process.cwd()}</li>
   <li>Argumentos de entrada: ${args}</li>
-  <li>Path de ejecución: ${ruta}</li>
-  <li>Sistema operativo: ${plataforma}</li>
-  <li>ID: ${id}</li>
-  <li>Node version: ${version}</li>
-  <li>Carpeta del proyecto: ${fileName}</li>
-  <li>Memoria total reservada: ${rss}</li>
+  <li>ID: ${process.pid}</li>
+  <li>Memoria total reservada: ${`${Math.round(
+    process.memoryUsage().rss / 1024
+  )} KB`}</li>
 </ul>`);
 });
 
+//Randoms
 server.get("/randoms", (req, res) => {
-  num = req.query.cant;
-  const randoms = fork("./utils/random.js");
+  const num = req.query.cant || 100;
+  const randoms = fork('./utils/random.js', [num]);
+  
   randoms.send("start");
+
+  randoms.on("error", (err) => {
+    console.log(`Error en child process 'random' ${err}`);
+  });
+
   randoms.on("message", (obj) => {
-    res.send(obj);
+    return res.json(obj);
   });
 });
+
+
 
 module.exports = server;

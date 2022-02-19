@@ -1,11 +1,11 @@
 const express = require("express");
 const session = require("express-session");
 const expbs = require("express-handlebars");
-require('dotenv').config({ path: './config/.env'})
+require("dotenv").config({ path: "./config/.env" });
 const { Server: HttpServer } = require("http");
 const { Server: IOServer } = require("socket.io");
-const path = require('path')
-const routes = require('./routers/index')
+const path = require("path");
+const routes = require("./routers/index");
 
 const app = express();
 const httpServer = new HttpServer(app);
@@ -39,7 +39,7 @@ app.use("/", routes);
 app.engine(
   "hbs",
   expbs.engine({
-    defaultLayout: 'main',
+    defaultLayout: "main",
     partialsDir: path.join(__dirname, "views/partials"),
     extname: ".hbs",
   })
@@ -47,18 +47,28 @@ app.engine(
 app.set("views", "./views");
 app.set("views engine", "hbs");
 
-
 /* CHAT */
-const Contenedor = require("./class/contenedor");
-const messages = new Contenedor(path.join(__dirname, "./data/chat.json"));
+const ApiChat = require("./api/apiChat");
+const apiChat = new ApiChat();
+let messages = [];
 
-io.on("connection", (socket) => {
-  socket.emit("messages", messages.content);
+io.on("connection", async (socket) => {
+  let messagesToEmit = await apiChat.readChatFromFile();
+
+  messages.splice(0, messages.length);
+  for (const m of messagesToEmit) {
+    messages.push(m);
+  }
+
+  socket.emit("messages", messagesToEmit);
 
   socket.on("new-message", (data) => {
-    data.time = new Date().toLocaleString();
-    messages.save(data);
+    data.id = messages.length+1
+    messages.push(data);
+
     io.sockets.emit("messages", [data]);
+
+    apiChat.writeChatToFile(messages);
   });
 });
 
