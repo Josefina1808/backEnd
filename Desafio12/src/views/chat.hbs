@@ -1,0 +1,66 @@
+<div class="container bg-light p-3 rounded m-3">
+<h2 class="text-primary">Centro de mensajes</h2>
+<form action="chat" method="post" id="myChat">
+  <div class="mb-3">
+
+    <input
+      type="email"
+      class="form-control w-25"
+      id="id"
+      placeholder="Email del usuario"
+      required=""
+    />
+
+    <input
+      type="text"
+      class="form-control w-25"
+      id="name"
+      placeholder="Nombre del usuario"
+      required=""
+    />
+
+    <input
+      type="text"
+      class="form-control w-25"
+      id="lastname"
+      placeholder="Apellido del usuario"
+    />
+
+    <input
+      type="number"
+      class="form-control w-25"
+      id="age"
+      placeholder="Edad del usuario"
+    />
+
+    <input
+      type="text"
+      class="form-control w-25"
+      id="alias"
+      placeholder="Alias del usuario"
+    />
+
+    <input
+      type="text"
+      class="form-control w-25"
+      id="avatar"
+      placeholder="URL del avatar del usuario"
+      required=""
+    />
+
+  </div>
+
+  <input
+    type="text"
+    class="form-control w-25 d-inline"
+    id="text"
+    placeholder="Escriba el mensaje que desea enviar"
+  />
+
+  <input type="submit" class="btn btn-primary" value="Enviar" />
+</form>
+<hr />
+<div id="compresion"></div>
+<div id="messages"></div>
+</div>
+
