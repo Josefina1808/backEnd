@@ -1,0 +1,51 @@
+{{! REGISTER FORM }}
+<br>
+<div class="container bg-light p-3 rounded">
+  <h2 class="text-primary">Registro de usuario</h2>
+  <p class="text-center">Ingresa los siguientes datos para registrarte</p>
+  <form action="register" method="post">
+    <div class="mb-3">
+      <label for="title" class="form-label">Ingrese su nombre</label>
+      <input type="text" class="form-control" name="name" />
+    </div>
+    <div class="mb-3">
+      <label for="title" class="form-label">Ingrese su dirección</label>
+      <input type="text" class="form-control" name="address" />
+    </div>
+    <div class="mb-3">
+      <label for="title" class="form-label">Ingrese su edad</label>
+      <input type="number" class="form-control" name="age" min="18" max="120" maxlength="3"/>
+      <div class="invalid-feedback">
+            Debes ser mayor de 18 años para registrate
+          </div>
+    </div>
+    <div class="mb-3">
+      <label for="title" class="form-label">Ingrese teléfono</label>
+      <input type="tel" class="form-control" name="phone" placeholder="Ej: +5491231234567" pattern="[+][0-9]{8,20}" required/>
+    </div>
+    <div class="mb-3">
+      <label for="title" class="form-label">Ingresar url avatar</label>
+      <input type="url" class="form-control" name="avatar"/>
+      <div class="form-text">Tamaño máximo del archivo 1MB</div>
+    </div>
+    <div class="mb-3">
+      <label for="title" class="form-label">Ingrese su email</label>
+      <input type="email" class="form-control" name="username" required />
+      <div class="invalid-feedback">
+            Introduce una dirección de email correcta
+          </div>
+    </div>
+    <div class="-3"mb>
+      <label for="title" class="form-label">Ingrese su contraseña</label>
+      <input type="password" class="form-control" name="password" minlength="8" required/>
+      <div class="invalid-feedback">
+            Debe tener al menos 8 caracteres
+          </div>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-success">Enviar</button>
+  </form>
+  <br />
+  <a href="login" class="btn btn-secondary btn-redirect">Ir a Loguearse</a>
+</div>
+<script src="register.js"></script>

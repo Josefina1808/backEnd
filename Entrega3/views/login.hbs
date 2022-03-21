@@ -1,0 +1,22 @@
+{{! LOGIN FORM }}
+<br>
+<div class="container bg-light p-3 rounded">
+  <h2 class="text-primary">Login de usuario</h2>
+  <form action="login" method="post">
+    <div class="mb-3">
+      <label for="title" class="form-label">Ingrese su nombre</label>
+      <input type="text" class="form-control" name="name" />
+    </div>
+    <div class="mb-3">
+      <label for="title" class="form-label">Ingrese correo electróncio</label>
+      <input type="email" class="form-control" name="username" />
+    </div>
+    <div class="mb-3">
+      <label for="title" class="form-label">Ingrese contraseña</label>
+      <input type="password" class="form-control" name="password" />
+    </div>
+    <button type="submit" class="btn btn-success">Enviar</button>
+  </form>
+  <br />
+<a href="register" class="btn btn-secondary btn-redirect">Ir a Registrarse</a>
+</div>
