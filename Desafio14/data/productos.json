@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Vaso",
+    "price": "1239",
+    "thumbnail": "https://cdn3.iconfinder.com/data/icons/geek-3/24/Deal_With_It_Glasses_pixel_geek_mame-128.png",
+    "id": 1
+  },
+  {
+    "title": "Vaso",
+    "price": "1239",
+    "thumbnail": "https://cdn3.iconfinder.com/data/icons/geek-3/24/Deal_With_It_Glasses_pixel_geek_mame-128.png",
+    "id": 2
+  },
+  {
+    "title": "Vaso",
+    "price": "123",
+    "thumbnail": "https://cdn3.iconfinder.com/data/icons/geek-3/24/Deal_With_It_Glasses_pixel_geek_mame-128.png",
+    "id": 3
+  }
+]
