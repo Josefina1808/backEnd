@@ -31,7 +31,6 @@ const socket = () => io.on("connection", async (socket) => {
 });
 
 const getChatController = (req, res) => {
-  socket()
   if (req.session.user) {
     return res.render("chat.hbs");
   } else return res.redirect("login");

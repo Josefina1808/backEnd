@@ -9,6 +9,12 @@ const routes = require("./routers/index");
 const app = express();
 const httpServer = new HttpServer(app);
 
+// Websocket config
+const { socket } = require("./socket");
+const { Server: IOServer } = require("socket.io");
+const io = new IOServer(httpServer);
+socket(io)
+
 //Session config
 app.use(session(options));
 
@@ -26,11 +32,10 @@ app.engine(
     partialsDir: path.join(__dirname, "views/partials"),
     extname: ".hbs",
   })
-  );
-  app.set("views", "./views");
-  app.set("views engine", "hbs");
-  
-  
+);
+app.set("views", "./views");
+app.set("views engine", "hbs");
+
 //Manejador de errores
 app.use(function (err, req, res, next) {
   console.log(err.stack);
