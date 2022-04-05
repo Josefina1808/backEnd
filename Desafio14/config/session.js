@@ -1,4 +1,5 @@
 require("dotenv").config({ path: "./config/.env" });
+
 /*      PERSISTENCIA POR MONGO ATLAS     */
 const MongoStore = require("connect-mongo");
 const adavancedOptions = { useNewUrlParser: true, useUnifiedTopology: true };
