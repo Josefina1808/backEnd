@@ -1,17 +1,20 @@
-const router = require('express').Router()
-const NoticasController = require('../controller/newsController')
+import express from 'express'
+const router = express.Router()
+import NewsController from '../controller/newsController.js'
 
-module.exports = class RouterNoticias {
+class RouterNews {
     constructor(){
-        this.controladorNoticias = new NoticasController()
+        this.newsController = new NewsController()
     }
 
     start() {
-        router.get('/:id', this.controladorNoticias.getNoticias())
-        router.post('/:id', this.controladorNoticias.saveNoticias())
-        router.put('/:id', this.controladorNoticias.updateNoticias())
-        router.delete('/:id', this.controladorNoticias.deleteNoticias())
+        router.get('/:id', this.newsController.getNews())
+        router.post('/', this.newsController.saveNews())
+        router.put('/:id', this.newsController.updateNews())
+        router.delete('/:id', this.newsController.deleteNews())
 
         return router
     }
 }
+
+export default RouterNews

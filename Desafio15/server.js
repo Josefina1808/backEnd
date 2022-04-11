@@ -1,22 +1,22 @@
-const config = require('./config/config')
-const express = require(('express'))
-const cors = require('cors')
-const RouterNoticias = require('./router/routernoticias.js')
+import config from './config/config.js'
+import express from 'express'
+import cors from 'cors'
+import RouterNews from './router/newsRouter.js'
 
 const app = express()
 
-if(confgi.NODE_ENV == 'development') app.use(cors())
+if(config.NODE_ENV == 'development') app.use(cors())
 
 app.use(express.static('public'))
 app.use(express.json())
 
-const routerNoticias = new RouterNoticias()
+const routerNews = new RouterNews()
 
-app.use('/noticias', routerNoticias.start())
+app.use('/noticias', routerNews.start())
 
-const PORT = 8080
+const PORT = config.PORT
 
 const server = app.listen(PORT, () => {
-    console.log(`SERVER ON ${PORT} (${confi.NODE_ENV} - ${config.PERS})`);
+    console.log(`SERVER ON ${PORT} (${config.NODE_ENV} - ${config.PERS})`);
 });
 server.on('error', e => console.error('SERVER ERROR: ', e))

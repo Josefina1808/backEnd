@@ -1,10 +1,11 @@
-const newsDTO = require("../DTOs/newsDTO");
-const NewsBaseDAO = require("./newsBaseDAO");
-const Config = require("../config/config");
-const mongodb = require("mongodb");
+import newsDTO from "../DTOs/newsDTO.js";
+import NewsBaseDAO from "./newsBaseDAO.js";
+import Config from "../../config/config.js";
+
+import mongodb from "mongodb";
 const { MongoClient, ObjectId } = mongodb;
 
-module.exports = class NewsDBMongoDAO extends NewsBaseDAO {
+class NewsDBMongoDAO extends NewsBaseDAO {
   constructor(database, collection) {
     super();
     (async () => {
@@ -64,3 +65,4 @@ module.exports = class NewsDBMongoDAO extends NewsBaseDAO {
       }
   }
 };
+export default NewsDBMongoDAO

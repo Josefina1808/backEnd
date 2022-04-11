@@ -6,4 +6,4 @@ function newsDTO(news,_id,date) {
     }
 }
 
-module.exports = {newsDTO}
+export default newsDTO

@@ -1,11 +1,11 @@
-const dotenv = require('dotenv')
-const path = require('path')
+import dotenv from 'dotenv'
+import path from 'path'
 
 dotenv.config({
-    path: path.resolve(process.cwd(), process.env.NODE_ENV + '.env')
+    path: path.resolve(process.cwd(), `./config/${process.env.NODE_ENV}.env`)
 });
 
-module.exports = {
+export default {
     NODE_ENV: process.env.NODE_ENV || 'development',
     HOST: process.env.HOST || 'localhost',
     PORT: process.env.PORT || 8080,

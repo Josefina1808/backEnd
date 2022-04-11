@@ -1,6 +1,6 @@
-const ApiNews = require('../api/apiNews.js')
+import ApiNews from '../api/apiNews.js'
 
-module.exports = class NewsController {
+class NewsController {
     constructor() {
         this.apiNews = new ApiNews()
     }
@@ -8,12 +8,12 @@ module.exports = class NewsController {
     getNews = async (req, res) => {
         try {
             let id = req.params.id
-            let News = await this.apiNews.getNews(id)
+            let news = await this.apiNews.getNews(id)
 
-            res.send(News)
+            res.send(news)
 
         } catch (e) {
-            console.log('error getNews:', e);
+            console.log('error getNews at controller:', e);
         }
     }
     saveNews = async (req, res) => {
@@ -24,7 +24,7 @@ module.exports = class NewsController {
             res.json(SavedNews)
 
         } catch (e) {
-            console.log('error saveNews:', e);
+            console.log('error saveNews at controller:', e);
         }
     }
     updateNews = async (req, res) => {
@@ -36,7 +36,7 @@ module.exports = class NewsController {
             res.json(updatedNews)
 
         } catch (e) {
-            console.log('error updateNews:', e);
+            console.log('error updateNews at controller:', e);
         }
     }
     deleteNews = async (req, res) => {
@@ -47,7 +47,8 @@ module.exports = class NewsController {
             res.json(deletedNews)
 
         } catch (e) {
-            console.log('error deleteNews:', e);
+            console.log('error deleteNews at controller:', e);
         }
     }
 }
+export default NewsController

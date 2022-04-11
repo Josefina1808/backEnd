@@ -1,7 +1,7 @@
-const newsDTO = require('../DTOs/newsDTO.js')
-const NewsBaseDAO = require('./newsBaseDAO')
+import newsDTO from '../DTOs/newsDTO.js'
+import NewsBaseDAO from './newsBaseDAO.js'
 
-module.exports = class NewsMemDAO extends NewsBaseDAO {
+class NewsMemDAO extends NewsBaseDAO {
     constructor() {
         super()
         this.news = []
@@ -71,3 +71,5 @@ module.exports = class NewsMemDAO extends NewsBaseDAO {
         }
     }
 }
+
+export default NewsMemDAO 

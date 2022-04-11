@@ -1,46 +1,46 @@
-const fs = require("fs");
-const newsDTO = require("../DTOs/newsDTO");
-const NewsBaseDAO = require("./newsBaseDAO");
+import fs from "fs";
+import newsDTO from "../DTOs/newsDTO.js";
+import NewsBaseDAO from "./newsBaseDAO.js";
 
-module.exports = class NewsFileDAO extends NewsBaseDAO {
+class NewsFileDAO extends NewsBaseDAO {
   constructor(fileName) {
     super();
     this.fileName = fileName;
   }
 
-  async read(file) {
-    return JSON.parse(await fs.promises.readFile(file, "utf-8"));
+  async read() {
+    return JSON.parse(await fs.promises.readFile(this.fileName, "utf-8"));
   }
-  async save(file, news) {
-    await fs.promises.writeFile(file, JSON.stringify(news, null, "\t"));
+  async save(news) {
+    await fs.promises.writeFile(this.fileName, JSON.stringify(news, null, "\t"));
   }
 
   getNews = async (_id) => {
     try {
       if (_id) {
-        let news = await this.read(this.fileName);
+        let news = await this.read();
         let index = news.findIndex((n) => n._id == id);
 
         return index >= 0 ? [news[index]] : [];
       } else {
-        return await this.read(this.fileName);
+        return await this.read();
       }
     } catch (e) {
       console.log("error getNews at DAO", e);
-      await this.save(this.fileName, []);
+      await this.save([]);
       return [];
     }
   };
   saveNews = async (news) => {
     try {
-      let news = await this.read(this.fileName);
+      let news = await this.read();
 
       let _id = this.getNext_Id(news);
       let date = new Date().toLocaleDateString();
       let savedNews = newsDTO(news, _id, date);
       news.push(savedNews);
 
-      await this.save(this.fileName, news);
+      await this.save(news);
 
       return savedNews;
     } catch (e) {
@@ -48,19 +48,23 @@ module.exports = class NewsFileDAO extends NewsBaseDAO {
       return {};
     }
   };
-  updateNews = async (news) => {
+  updateNews = async (newToUpdate) => {
     try {
-      let news = await this.read(this.fileName);
+      let news = await this.read();
 
       let date = new Date().toLocaleDateString();
-      let newNews = newsDTO(news, _id, date);
+      let newNews = newsDTO(newToUpdate, _id, date);
 
-      let index = this.getIndex(id, this.news);
+      let index = this.getIndex(id, news);
       let nowNews = this.news[index] || {};
 
       let updatedNews = {...nowNews,...newNews}
-
-      await this.save(this.fileName, news);
+      
+      index>=0?
+      this.news.splice(index,1,updatedNews) :
+      this.news.push(updatedNews)
+      
+      await this.save(news);
       return updatedNews
 
     } catch (e) {
@@ -71,12 +75,12 @@ module.exports = class NewsFileDAO extends NewsBaseDAO {
   };
   deleteNews = async (news) => {
     try {
-        let news = await this.read(this.fileName);
+        let news = await this.read();
 
-        let index = this.getIndex(id, this.news);
+        let index = this.getIndex(id, news);
         let deletedNews = this.news.splice(index,1)[0]
 
-        await this.save(this.fileName, news);
+        await this.save(news);
         return deletedNews
 
     } catch (e) {
@@ -85,3 +89,4 @@ module.exports = class NewsFileDAO extends NewsBaseDAO {
     }
   };
 };
+export default NewsFileDAO

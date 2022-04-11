@@ -1,7 +1,6 @@
-const Joi = require('joi')
-const joi = require('joi')
+import Joi from 'joi'
 
-module.exports = class News {
+class News {
     constructor(title,body,author,image,email,view) {
         this.title = title
         this.body = body
@@ -51,3 +50,4 @@ module.exports = class News {
         }
     }
 }
+export default News
