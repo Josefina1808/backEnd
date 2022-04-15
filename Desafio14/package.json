@@ -12,7 +12,7 @@
     "session-file-store": "^1.5.0",
     "socket.io": "^4.4.0"
   },
-  "name": "backend",
+  "name": "desafio_14",
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
@@ -30,6 +30,6 @@
     "url": "https://github.com/Josefina1808/backEnd/issues"
   },
   "homepage": "https://github.com/Josefina1808/backEnd#readme",
-  "description": "Desafio 11 - USANDO EL OBJETO PROCESS",
+  "description": "Desafio 14 - DIVIDIR EN CAPAS NUESTRO PROYECTO",
   "keywords": []
 }

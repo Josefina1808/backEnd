@@ -1,7 +1,7 @@
 {
-  "name": "c41",
+  "name": "d15",
   "version": "1.0.0",
-  "description": "- MERN stack\r - CORS\r - Aplicación con API RESTFul en el lado del servidor y un front-end simple en el lado del cliente\r - Conocer sobre las pruebas de servidores y los tipos\r ## Summary\r ### MERN STACK\r Conjunto de tecnologías utilizadas para el desarrollo web de aplicaciones: MongoDB, ExpressJS,  ReactJS y NodeJS\r ### CORS\r Mecanismo para permitir o restringir los recursos solicitados en un servidor web dependiendo de dónde se inició la solicitud HTTP\r ## Reconocimientos\r Equipo de CoderHouse",
+  "description": "Desafio 15 - Mejorar la arquitectura de nuestra API",
   "type": "module",
   "main": "server.js",
   "scripts": {
