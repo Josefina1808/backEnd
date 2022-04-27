@@ -1,4 +1,4 @@
-# Desafio 17 - TESTEAMOS NUESTRA API REST
+# Desafio 17 - REFORMAR PARA USAR GRAPHQL
 
 ## Consigna
 - En base al último proyecto entregable de servidor API RESTful, reformar la capa de routeo y el controlador para que los requests puedan ser realizados a través del lenguaje de query GraphQL. 
