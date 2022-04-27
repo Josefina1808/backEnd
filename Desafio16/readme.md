@@ -1,4 +1,4 @@
-# Desafio 15 - TESTEAMOS NUESTRA API REST
+# Desafio 16 - TESTEAMOS NUESTRA API REST
 
 ## Consigna
 Revisar en forma completa el proyecto entregable que venimos realizando, refactorizando y reformando todo lo necesario para llegar al esquema de servidor API RESTful en capas planteado en esta clase.
